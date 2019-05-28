@@ -24,7 +24,7 @@ public class CategoriaResource {
 		return lista;
 		
 	}
-	@RequestMapping(value="/listar2")
+
 	public String listar2() {
 		Categoria cat1 = new Categoria(1, "Informática");
 		Categoria cat2 = new Categoria(2, "Eletrônica");
