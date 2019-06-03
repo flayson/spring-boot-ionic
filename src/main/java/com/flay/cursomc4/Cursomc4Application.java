@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.flay.cursomc4.domain.Categoria;
+import com.flay.cursomc4.domain.Cidade;
+import com.flay.cursomc4.domain.Estado;
 import com.flay.cursomc4.domain.Produto;
 import com.flay.cursomc4.repositories.CategoriaRepository;
+import com.flay.cursomc4.repositories.CidadeRepository;
+import com.flay.cursomc4.repositories.EstadoRepository;
 import com.flay.cursomc4.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -19,6 +23,10 @@ public class Cursomc4Application implements CommandLineRunner {
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc4Application.class, args);
@@ -49,6 +57,24 @@ public class Cursomc4Application implements CommandLineRunner {
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
+		/* Estados e Cidades */
+		Estado go = new Estado(null, "Goiás");
+		Estado sp = new Estado(null, "São Paulo");
+		Estado mg = new Estado(null, "Minas Gerais");
+
+		Cidade c1 = new Cidade(null, "Inhumas", go);
+		Cidade c2 = new Cidade(null, "São Paulo", sp);
+		Cidade c3 = new Cidade(null, "Uberlândia", mg);
+		Cidade c4 = new Cidade(null, "Caturaí", go);
+		Cidade c5 = new Cidade(null, "Campinas", sp);
+
+		go.getCidades().addAll(Arrays.asList(c1, c4));
+		sp.getCidades().addAll(Arrays.asList(c2, c5));
+		mg.getCidades().addAll(Arrays.asList(c3));
+
+		estadoRepository.saveAll(Arrays.asList(go, sp, mg));//é importante gerar os estados para depois gerar as cidades, por causa das dependencias
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5));
+		
 	}
 
 }
