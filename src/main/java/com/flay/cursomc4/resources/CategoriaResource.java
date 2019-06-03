@@ -16,7 +16,9 @@ import com.flay.cursomc4.services.CategoriaService;
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
-	
+	/*Controladores REST costumam ter métodos pequenos, não é interessante colocar try cath
+	 * nestes controladores.
+	 * */
 	@Autowired
 	private CategoriaService service;
 	
@@ -29,6 +31,7 @@ public class CategoriaResource {
 		
 		//ok ==> resposta OK.
 		return ResponseEntity.ok(obj);
+		
 
 	}
 

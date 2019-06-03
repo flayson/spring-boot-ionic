@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Produto implements Serializable {
@@ -26,6 +29,7 @@ public class Produto implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double valor;
+	@JsonBackReference//omite a lista de categorias, pois já foi feita consulta em categorias
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 	joinColumns = @JoinColumn(name="produto_id"), 
