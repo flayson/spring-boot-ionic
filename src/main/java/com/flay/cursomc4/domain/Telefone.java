@@ -2,8 +2,6 @@ package com.flay.cursomc4.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-
 
 public class Telefone implements Serializable {
 	private String numero;

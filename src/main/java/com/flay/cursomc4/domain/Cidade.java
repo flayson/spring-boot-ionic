@@ -9,12 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	//na relação cidade e endereco, a cidade não vê o endereco
+	//Existe uma relação cíclia entre a Entidade Estado e Cidade. Neste caso a cidade serealiza o estado dela.
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="estado_id") //nome da chave estrangeira em cidade
 	private Estado estado;
