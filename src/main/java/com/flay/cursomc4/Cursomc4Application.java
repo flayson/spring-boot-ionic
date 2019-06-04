@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.flay.cursomc4.domain.Categoria;
 import com.flay.cursomc4.domain.Cidade;
+import com.flay.cursomc4.domain.Cliente;
+import com.flay.cursomc4.domain.Endereco;
 import com.flay.cursomc4.domain.Estado;
 import com.flay.cursomc4.domain.Produto;
+import com.flay.cursomc4.domain.enums.TipoCliente;
 import com.flay.cursomc4.repositories.CategoriaRepository;
 import com.flay.cursomc4.repositories.CidadeRepository;
+import com.flay.cursomc4.repositories.ClienteRepository;
+import com.flay.cursomc4.repositories.EnderecoRepository;
 import com.flay.cursomc4.repositories.EstadoRepository;
 import com.flay.cursomc4.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class Cursomc4Application implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc4Application.class, args);
@@ -74,6 +83,16 @@ public class Cursomc4Application implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(go, sp, mg));//é importante gerar os estados para depois gerar as cidades, por causa das dependencias
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5));
+		
+		Cliente cli1 = new Cliente(null, "Maria", "maria@email.com", "12345", TipoCliente.PF);
+		cli1.getTelefones().addAll(Arrays.asList("62125468", "56245878"));
+		Endereco e1 = new Endereco(null, "Rua 1", "51", "Acima da biblioteca", "Centro", "75400-000", cli1, c1);
+		Endereco e2 = new Endereco(null, "Rua 3", "533", "Acima do banco", "Centro", "4350-000", cli1, c2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.save(cli1);
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 	}
 
