@@ -1,7 +1,7 @@
 package com.flay.cursomc4.resources;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,13 +47,13 @@ public class CategoriaResource {
 //		
 //	}
 
-	public String listar2() {
-		Categoria cat1 = new Categoria(1, "Informática");
-		Categoria cat2 = new Categoria(2, "Eletrônica");
-
-		List lista = new ArrayList();
-		lista.add(cat1);
-		lista.add(cat2);
-		return "Rest OK!";
-	}
+//	public String listar2() {
+//		Categoria cat1 = new Categoria(1, "Informática");
+//		Categoria cat2 = new Categoria(2, "Eletrônica");
+//
+//		List lista = new ArrayList();
+//		lista.add(cat1);
+//		lista.add(cat2);
+//		return "Rest OK!";
+//	}
 }

@@ -1,5 +1,6 @@
 package com.flay.cursomc4;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.flay.cursomc4.domain.Cidade;
 import com.flay.cursomc4.domain.Cliente;
 import com.flay.cursomc4.domain.Endereco;
 import com.flay.cursomc4.domain.Estado;
+import com.flay.cursomc4.domain.Pagamento;
+import com.flay.cursomc4.domain.PagamentoComBoleto;
+import com.flay.cursomc4.domain.PagamentoComCartao;
+import com.flay.cursomc4.domain.Pedido;
 import com.flay.cursomc4.domain.Produto;
+import com.flay.cursomc4.domain.enums.EstadoPagamento;
 import com.flay.cursomc4.domain.enums.TipoCliente;
 import com.flay.cursomc4.repositories.CategoriaRepository;
 import com.flay.cursomc4.repositories.CidadeRepository;
 import com.flay.cursomc4.repositories.ClienteRepository;
 import com.flay.cursomc4.repositories.EnderecoRepository;
 import com.flay.cursomc4.repositories.EstadoRepository;
+import com.flay.cursomc4.repositories.PagamentoRepository;
+import com.flay.cursomc4.repositories.PedidoRepository;
 import com.flay.cursomc4.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class Cursomc4Application implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository; //não há necessidade de criar pagamentoBoleto e pagamentoCartao, pois estas classes herdam de pagamento.
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc4Application.class, args);
@@ -94,6 +106,21 @@ public class Cursomc4Application implements CommandLineRunner {
 		clienteRepository.save(cli1);
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		/*Obs.: pagamento e pedido são independes um do outro, neste caso, retirou-se o pagamento em pedido para permitir criar o pedido.*/
+		Pedido ped1 = new Pedido(null, sdf.parse("04/06/2019 19:35"), cli1, e1 );
+		Pedido ped2 = new Pedido(null, sdf.parse("08/08/2019 22:35"), cli1, e2 );
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QU, ped1, 6);
+		ped1.setPagamento(pagto1);
+
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PE, ped2, sdf.parse("09/10/2019 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 
 }
