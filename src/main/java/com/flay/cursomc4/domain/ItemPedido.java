@@ -6,10 +6,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
+	@JsonIgnore //não será serealizado, não precisa utilizar mais jsonmaneged reference e jsonbackreference
 	@EmbeddedId //Embutir de um tipo auxiliar "embededaid"
 	private ItemPedidoPK id = new ItemPedidoPK();//as associacoes forem feitas no itempedidoPK
+	
 	private Double desconto;
 	private Integer quantidade;
 	private Double preco;
@@ -36,12 +40,13 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	//para ter acesso direto ao pedido
+	//para ter acesso direto ao pedido. Este método faz referência cíclica. Tudo que começa com get, o JPA entende que tem que serealizar
+	@JsonIgnore //neste caso tem que usar o jsonIgnore
 	public Pedido getPedido() {
 		return getId().getPedido();
 	}
-	//para ter acesso direto ao produto
-	public Produto getProduto() {
+	//para ter acesso direto ao produto. Este método faz referência cíclica. Tudo que começa com get, o JPA entende que tem que serealizar
+	public Produto getProduto() { 
 		return getId().getProduto();
 	}
 	public Double getDesconto() {

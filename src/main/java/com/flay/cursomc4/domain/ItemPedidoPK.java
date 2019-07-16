@@ -6,8 +6,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Embeddable // especifica que é um subtivo. "Embedabol"
 public class ItemPedidoPK implements Serializable { // não precisa ter construtor.
+	@JsonIgnore //faz com que não seja serealizado o pedido e o produto, não precisa informar o jsonreferece e o jsonbackreference
 	@ManyToOne
 	@JoinColumn(name="pedido_id")
 	private Pedido pedido;

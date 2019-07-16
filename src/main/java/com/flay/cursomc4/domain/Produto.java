@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -37,6 +38,7 @@ public class Produto implements Serializable {
 	inverseJoinColumns = @JoinColumn(name= "categoria_id")) //produto_id é o nome da chave estrangeira da tabela
 	
 	private List<Categoria> categorias = new ArrayList<>();
+	@JsonIgnore //ignora a lista de produto na serealização
 	@OneToMany(mappedBy="id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();//garante que não tenha itens pedidos repetidos.
 
@@ -50,8 +52,8 @@ public class Produto implements Serializable {
 		this.nome = nome;
 		this.valor = valor;
 	}
-	
-	public List<Pedido> getPedidos(){
+	@JsonIgnore //não permite a serealização, sem esse comando ocorre referência cíclica.
+	public List<Pedido> getPedidos(){ //tudo que começa com get automaticamente é serealizado, neste caso tem que ignorar. 
 		List<Pedido> lista = new ArrayList<>();
 		for(ItemPedido item : getItens()) {
 			lista.add(item.getPedido());
