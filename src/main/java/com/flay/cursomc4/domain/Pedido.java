@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -25,11 +24,11 @@ public class Pedido implements Serializable {
 	private Integer id;
 	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;//java.util.
-	@JsonManagedReference //permite que o pagamento seja sererializado
+	//Retirou o  @JsonManagedReference //permite que o pagamento seja sererializado
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido") //o cascade é necessário pois se não dá um erro ao salvar o pedido e o pagamento. Pecularidade do JPA.	
 	private Pagamento pagamento;
 	
-	@JsonManagedReference //os clientes serão serealizados nos pedidos
+	//Retirou o @JsonManagedReference //os clientes serão serealizados nos pedidos
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;

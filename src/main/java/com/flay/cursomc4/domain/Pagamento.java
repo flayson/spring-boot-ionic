@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.flay.cursomc4.domain.enums.EstadoPagamento;
 
 @Entity  //inheritance == inrerrantence
@@ -22,7 +22,8 @@ public abstract class Pagamento implements Serializable { //abstract garante que
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer estado;
-	@JsonBackReference //não permite que o pagamento seja serealizado
+	//Mudou @JsonBackReference para @JsonIgnore //não permite que o pagamento seja serealizado
+    @JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId //garante que o atributo pedido_id seja igual no pedido

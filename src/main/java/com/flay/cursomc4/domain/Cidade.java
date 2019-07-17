@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Cidade implements Serializable {
 	@Id
@@ -19,7 +17,7 @@ public class Cidade implements Serializable {
 	private String nome;
 	//na relação cidade e endereco, a cidade não vê o endereco
 	//Existe uma relação cíclia entre a Entidade Estado e Cidade. Neste caso a cidade serealiza o estado dela.
-	@JsonManagedReference
+	//teve que tivar o @JsonManagedReference por apresentar problemas nas inserções //resolver o problema de dependencia ciclica
 	@ManyToOne
 	@JoinColumn(name="estado_id") //nome da chave estrangeira em cidade
 	private Estado estado;

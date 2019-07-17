@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Estado implements Serializable {
@@ -20,8 +20,8 @@ public class Estado implements Serializable {
 	private String nome;
 	//mesmo nome no diagrama
 	//Existe uma relação cíclia entre a Entidade Estado e Cidade. Neste caso a cidade serealiza o estado dela.
-	@JsonBackReference
-	@OneToMany(mappedBy="estado")
+	//Mudou @JsonBackReference para @JsonIgnore
+    @JsonIgnore	@OneToMany(mappedBy="estado")
 	private List<Cidade> cidades = new ArrayList<>(); //não inclua coleções no construtor com parâmetros. Instanciamento é obrigatório
 	private static final long serialVersionUID = 1L;
 	

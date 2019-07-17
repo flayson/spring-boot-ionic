@@ -14,8 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.flay.cursomc4.domain.enums.TipoCliente;
 
 @Entity
@@ -28,14 +27,15 @@ public class Cliente implements Serializable {
 	private String cnpjCpf;
 	private Integer tipo;
 	//a classe cliente pode serializar os endereços, o inverso não.
-	@JsonManagedReference
+	//teve que tivar o @JsonManagedReference por apresentar problemas nas inserções //resolver o problema de dependencia ciclica
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new  ArrayList<>();
 	
 	@ElementCollection
 	@CollectionTable(name="Telefone")
 	private Set<String> telefones = new HashSet<>();
-	@JsonBackReference //os pedidos de um cliente não vao ser serealizados
+	//Mudou @JsonBackReference para @JsonIgnore //os pedidos de um cliente não vao ser serealizados
+	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<Pedido>(); //coleção nao se coloca no construtor
 	
