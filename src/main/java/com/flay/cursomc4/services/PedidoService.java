@@ -14,7 +14,7 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository repositorio;
 
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 //		Optional<Pedido> obj = repositorio.findById(id); // se o id não existe, retorna null
 //		return obj.orElse(null);
 		Optional<Pedido> obj = repositorio.findById(id);

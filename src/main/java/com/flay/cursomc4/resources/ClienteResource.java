@@ -26,21 +26,30 @@ public class ClienteResource {
 	public ResponseEntity<?> find(@PathVariable String id) {
 		// ResponseEntity contém código de http de resposta. Várias informações de HTTP.
 		// ResponseEntity<?> a interrogação significa que pode encontrar qualquer coisa.
-		try {
-			System.out.println("id: " + id);
-			Integer num = Integer.parseInt(id);
-			Cliente obj = service.buscar(num);
-			System.out.println("N: " + num);
-			return ResponseEntity.ok(obj);
-		} catch (Exception e) {
-			System.out.println("EX: " + e);
-			// TODO: handle exception
 
-			StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(),
-					System.currentTimeMillis());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-			// ok ==> resposta OK.
-		}
-
+			Cliente obj = service.find(Integer.parseInt(id));
+			return ResponseEntity.ok().body(obj);
 	}
+	
+//	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//	public ResponseEntity<?> find(@PathVariable String id) {
+//		// ResponseEntity contém código de http de resposta. Várias informações de HTTP.
+//		// ResponseEntity<?> a interrogação significa que pode encontrar qualquer coisa.
+//		try {
+//			System.out.println("id: " + id);
+//			Integer num = Integer.parseInt(id);
+//			Cliente obj = service.find(num);
+//			System.out.println("N: " + num);
+//			return ResponseEntity.ok(obj);
+//		} catch (Exception e) {
+//			System.out.println("EX: " + e);
+//			// TODO: handle exception
+//
+//			StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(),
+//					System.currentTimeMillis());
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+//			// ok ==> resposta OK.
+//		}
+//
+//	}
 }
