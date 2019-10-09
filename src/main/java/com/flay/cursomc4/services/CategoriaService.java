@@ -3,10 +3,12 @@ package com.flay.cursomc4.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.flay.cursomc4.domain.Categoria;
 import com.flay.cursomc4.repositories.CategoriaRepository;
+import com.flay.cursomc4.services.exceptions.DataIntegrityException;
 import com.flay.cursomc4.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -35,5 +37,14 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		this.find(obj.getId());
 		return repositorio.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+		repositorio.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new  DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
+		}
 	}
 }
