@@ -1,6 +1,8 @@
 package com.flay.cursomc4.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 //import java.util.ArrayList;
 //import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.flay.cursomc4.domain.Categoria;
 import com.flay.cursomc4.services.CategoriaService;
+import com.flay.cursomc4.services.dto.CategoriaDTO;
 
 @RestController
 @RequestMapping(value = "/categorias") //chama-se endPoint
@@ -60,6 +63,22 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+//	@RequestMapping(method = RequestMethod.GET) //endereco/categorias   {sem id}
+//	public ResponseEntity<List<Categoria>> findAll1() {	
+//		List<Categoria> list = service.findAll();
+//		return ResponseEntity.ok().body(list);
+//		
+//	}
+	
+	@RequestMapping(method = RequestMethod.GET) //endereco/categorias   {sem id}
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		
+		List<Categoria> list = service.findAll();
+		//obj-> operador de 
+		List<CategoriaDTO> listDTO = list.stream().map(obj-> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 //	public List<Categoria> listar() {
