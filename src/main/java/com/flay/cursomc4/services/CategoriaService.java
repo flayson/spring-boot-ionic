@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.flay.cursomc4.domain.Categoria;
 import com.flay.cursomc4.repositories.CategoriaRepository;
+import com.flay.cursomc4.services.dto.CategoriaDTO;
 import com.flay.cursomc4.services.exceptions.DataIntegrityException;
 import com.flay.cursomc4.services.exceptions.ObjectNotFoundException;
 
@@ -29,38 +30,41 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 
-
 	}
-	
+
 	public Categoria insert(Categoria obj) {
-		obj.setId(null); //Por garantia, será setado com o id null. O método save considerá como uma inserção
+		obj.setId(null); // Por garantia, será setado com o id null. O método save considerá como uma
+							// inserção
 		// se o id não for null, o save atualizará a linha na tabela.
 		return repositorio.save(obj);
 	}
-	
+
 	public Categoria update(Categoria obj) {
 		this.find(obj.getId());
 		return repositorio.save(obj);
 	}
-	
+
 	public void delete(Integer id) {
 		find(id);
 		try {
-		repositorio.deleteById(id);
+			repositorio.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new  DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
 		}
 	}
-	
+
 	public List<Categoria> findAll() {
 		return repositorio.findAll();
-		
+
 	}
-	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),
-				orderBy);
-		
+
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+
 		return repositorio.findAll(pageRequest);
+	}
+
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 }

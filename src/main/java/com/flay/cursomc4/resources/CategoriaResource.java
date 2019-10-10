@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -46,9 +48,18 @@ public class CategoriaResource {
 
 	}
 
+//	@RequestMapping(method = RequestMethod.POST)
+//	public ResponseEntity<Void> insert(@RequestBody Categoria obj) { // void retorna o corpo vazio. // Request Body, faz
+//																		// o objeto json ser convertido em objeto java
+//		obj = service.insert(obj); // insert rertona um obj.
+//		// codigo de resposta HTTP para inserção: 201 Created. Conforme a W3. Deve
+//		// retornar a uri do novo recurso criado, ou seja, o id da nova categoria.
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+//		return ResponseEntity.created(uri).build(); // gera o código 201.
+//	}
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) { // void retorna o corpo vazio. // Request Body, faz
-																		// o objeto json ser convertido em objeto java
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {//@Valid obriga validar primeiro antes de inserir // Request Body, faz
+		Categoria obj = service.fromDTO(objDTO);												// o objeto json ser convertido em objeto java
 		obj = service.insert(obj); // insert rertona um obj.
 		// codigo de resposta HTTP para inserção: 201 Created. Conforme a W3. Deve
 		// retornar a uri do novo recurso criado, ou seja, o id da nova categoria.
