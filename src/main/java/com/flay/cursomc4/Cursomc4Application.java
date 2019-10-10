@@ -62,7 +62,12 @@ public class Cursomc4Application implements CommandLineRunner {
 		// TODO Auto-generated method stub
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Eletrônica");
-
+		Categoria cat3 = new Categoria(null, "Cama Mesa e Banho");
+		Categoria cat4 = new Categoria(null, "Jardinagem");
+		Categoria cat5 = new Categoria(null, "Perfumaria");
+		Categoria cat6 = new Categoria(null, "Automobilistica");
+		Categoria cat7 = new Categoria(null, "Limpeza");
+		
 		Produto p1 = new Produto(null, "Mouse", 15.0);
 		Produto p2 = new Produto(null, "Teclado", 24.0);
 		Produto p3 = new Produto(null, "Raspberry", 80.0);
@@ -79,7 +84,7 @@ public class Cursomc4Application implements CommandLineRunner {
 
 		p4.getCategorias().add(cat2);
 		p5.getCategorias().add(cat2);
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
 		/* Estados e Cidades */
